@@ -1,0 +1,17 @@
+FROM golang:1.13.3-alpine3.10 AS app
+ENV GO111MODULE=on
+ENV CGO_ENABLED=0 GOFLAGS=-mod=vendor
+WORKDIR /app
+COPY . /app
+RUN ls -lrt
+COPY  go.mod .
+COPY  go.sum .
+
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=vendor
+
+#FROM scratch
+FROM alpine
+COPY --from=app /app/applog .
+RUN mkdir log
+ENTRYPOINT [ "./applog" ]

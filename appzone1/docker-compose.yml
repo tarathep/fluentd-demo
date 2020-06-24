@@ -1,0 +1,12 @@
+version: '3.2'
+
+services: 
+    applog:
+        build: 
+            context: ./applog
+            dockerfile: applog
+        container_name: applog
+        environment: 
+            HOST: 192.168.1.107
+
+       
